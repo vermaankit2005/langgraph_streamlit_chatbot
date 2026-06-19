@@ -27,10 +27,10 @@ def handle_input(user_input: str):
         st.text(reply)
 
 
-if "message_history" not in st.session_state:
-    st.session_state["message_history"] = []
-else:
+if "message_history" in st.session_state:
     render_history()
+else:
+    st.session_state["message_history"] = []
 
 user_input = st.chat_input("Type your message")
 if user_input:

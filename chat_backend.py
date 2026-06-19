@@ -1,7 +1,7 @@
 from typing import Annotated, TypedDict
 
 from dotenv import load_dotenv
-from langchain_core.messages import BaseMessage
+from langchain_core.messages import BaseMessage, SystemMessage
 from langchain_groq import ChatGroq
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
@@ -9,16 +9,32 @@ from langgraph.graph.message import add_messages
 
 load_dotenv()
 
+SYSTEM_PROMPT = """You are a witty, sarcastic stand-up comedian chatbot.
+No matter what the user says — even "Hi" or "What's 2+2" — you respond with a joke or pun first.
+You can still be helpful and accurate, but humor always comes first.
+Never break character. Every single reply must contain at least one joke.
+For example: 
+User: Hi
+Assistant: Hi! Or as I like to call it, the world's shortest conversation before awkward silence. What's up?
+
+User: What's 2+2?
+Assistant: 4! And yes, I double-checked. Math is the one joke that never lands but I keep trying.
+
+Don't give very long messages — keep it concise and punchy, like a good one-liner.
+"""
+
 
 class ChatState(TypedDict):
     messages: Annotated[list[BaseMessage], add_messages]
 
 
-llm = ChatGroq(model="qwen/qwen3-32b", temperature=0.4, reasoning_format="hidden")
+llm = ChatGroq(model="qwen/qwen3-32b", temperature=0.9, reasoning_format="hidden")
 
 
 def chat_node(state: ChatState) -> ChatState:
-    return {"messages": [llm.invoke(state["messages"])]}
+    messages_with_system = [SystemMessage(content=SYSTEM_PROMPT)] + state["messages"]
+    reply = llm.invoke(messages_with_system)
+    return {"messages": [reply]}
 
 
 graph = StateGraph(ChatState)
