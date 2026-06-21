@@ -142,6 +142,6 @@ if "message_history" in st.session_state:
 else:
     st.session_state["message_history"] = []
 
-user_input = st.chat_input("Say something... I dare you 🎤")
+    user_input = st.chat_input("Say something... I dare you 🎤")
 if user_input:
     handle_input(user_input)
