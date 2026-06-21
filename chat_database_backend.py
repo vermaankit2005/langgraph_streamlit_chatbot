@@ -49,7 +49,7 @@ conn = sqlite3.connect("chatbot.db", check_same_thread=False)
 workflow = graph.compile(checkpointer=SqliteSaver(conn))
 
 
-def get_unique_threads() -> list[str]:
+def get_all_unique_threads_from_state() -> list[str]:
     try:
         cursor = conn.execute("SELECT DISTINCT thread_id FROM checkpoints")
         rows = cursor.fetchall()

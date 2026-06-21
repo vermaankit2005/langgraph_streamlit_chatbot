@@ -42,5 +42,5 @@ GROQ_API_KEY=your_key_here
 ## Run
 
 ```bash
-streamlit run streamlit_streaming_frontend.py
+streamlit run streamlit_streaming_with_threads.py
 ```
