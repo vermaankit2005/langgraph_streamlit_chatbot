@@ -2,7 +2,7 @@ import streamlit as st
 from langchain_core.messages import HumanMessage
 import uuid
 
-from chat_database_backend import workflow, get_all_unique_threads_from_state
+from backend.chat_database_backend_tools import workflow, get_all_unique_threads_from_state
 
 # ── PAGE CONFIG ───────────────────────────────────────────────────────────────
 

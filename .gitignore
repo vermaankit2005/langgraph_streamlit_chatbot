@@ -5,4 +5,6 @@ __pycache__/
 .env
 .idea/
 .junie/
+*.db
+*.bin
 bash.exe.stackdump

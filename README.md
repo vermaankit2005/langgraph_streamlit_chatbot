@@ -23,14 +23,22 @@ A conversational AI chatbot built with **LangGraph** + **Streamlit**, powered by
 
 ```
 langgraph_streamlit_chatbot/
-├── chat_backend.py                   # LangGraph workflow + system prompt
-└── streamlit_streaming_frontend.py   # Streamlit UI (streaming)
+├── backend/                              # LangGraph workflows + system prompts
+│   ├── chat_backend.py                   # In-memory checkpointer
+│   ├── chat_database_backend.py          # SQLite checkpointer
+│   └── chat_database_backend_tools.py    # SQLite checkpointer + tools (search, calculator)
+└── frontend/                             # Streamlit UIs
+    ├── frontend.py                       # Basic chat
+    ├── streaming_threads.py              # Streaming + thread sidebar
+    ├── streaming_threads_sqlite.py       # Streaming + persisted threads
+    └── streaming_threads_sqlite_tools.py # Streaming + persisted threads + tools
 ```
 
 ## Setup
 
 ```bash
-pip install streamlit langgraph langchain-groq langchain-core python-dotenv
+python -m pip install -r requirements.txt
+python -m pip install -e .   # installs the `backend` package so frontends can import it
 ```
 
 Create `.env`:
@@ -41,6 +49,8 @@ GROQ_API_KEY=your_key_here
 
 ## Run
 
+Run from the project root:
+
 ```bash
-streamlit run streamlit_streaming_with_threads.py
+streamlit run frontend/streaming_threads.py
 ```
